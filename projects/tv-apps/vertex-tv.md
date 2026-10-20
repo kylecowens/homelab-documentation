@@ -4,7 +4,7 @@
 
 Project by [Kyle Cowens](https://vertexhomelab.co.uk/kyle-cowens/), developed with AI-assisted coding and iterative testing on physical televisions.
 
-![Vertex TV home: greeting, resume banner and continue-watching rail](images/vertex-home.jpg)
+![Vertex TV home: greeting, featured movie and continue-watching rail](images/vertex-home.jpg)
 
 *Actual app interface in a browser preview. Titles, progress, artwork and account labels are fictional demonstration data.*
 
@@ -16,14 +16,16 @@ Vertex TV brings the interaction model and playback decisions into the client. I
 
 ## What was built
 
-- A home screen with resume, continue watching, next-up episodes and recent library additions.
-- Movie and series browsing, seasons, episodes, search, favourites and watched-state controls.
+- A random featured movie on Home, with separate continue-watching, next-up and recent-addition rows.
+- Movie and series browsing, collections, seasons, episodes, search, favourites and watched-state controls.
 - A series-level play button that selects an unfinished episode or the next unwatched episode.
 - Quick Connect as the initial sign-in focus, plus explicit username and password editors.
+- A Profiles tab for accounts already authenticated on the television, with session validation before switching and normal sign-in for additional accounts.
 - Live TV browsing and available programme information.
 - Playback controls, audio-track selection, text-subtitle overlays, resume reporting and a next-episode prompt.
 - A bounded 96 MB artwork and metadata cache with automatic eviction.
 - Green and pink accent themes, large controls and visible remote focus.
+- Prominent watched ribbons with a tick, and settings choices that open in remote-friendly dialogs.
 
 ![Movie library with fictional poster artwork](images/vertex-library.jpg)
 
@@ -54,6 +56,7 @@ Text subtitles are displayed separately from the video. This avoids deliberately
 | Observed issue | Change |
 |---|---|
 | The username keyboard trapped the initial navigation | Start on Quick Connect and open text fields in explicit editors with a return path |
+| Native settings dropdowns trapped arrow navigation | Use buttons with choice dialogs; Back closes the dialog and restores focus |
 | Opening a series required navigating through seasons before playing | Add a series-level play/resume action |
 | Fast upward navigation skipped grid rows | Resolve movement inside the grid before moving to the header |
 | Returning to the banner left content hidden, while the final row touched the footer | Scroll the content container explicitly, restore the top on hero focus, and reserve space around focused rows |
@@ -62,9 +65,9 @@ Text subtitles are displayed separately from the video. This avoids deliberately
 
 The client has been installed on two Samsung Tizen 8 televisions. User testing confirmed Quick Connect, library browsing, Live TV listing and fast Direct Play of selected episodes.
 
-The local core suite contains 16 passing tests covering playback policy, subtitle parsing, navigation, episode selection and scroll bounds. The latest padding and scroll changes were also checked at a 1920 × 1080 browser viewport: the final row clears the footer, and returning to the hero reveals the greeting.
+The local suite contains 22 passing tests covering playback policy, subtitle parsing, navigation, episode selection, scroll bounds and profile sessions. Profile tests cover migration, switching, server isolation, rejected sessions and sign-out. Browser checks at 1920 × 1080 confirm footer clearance, full hero return, settings navigation, collection browsing and profile cancellation.
 
-The latest layout changes are installed on both televisions, with a physical remote retest still pending. Audio conversion, unusual subtitle formats, cache pressure and broader codec coverage remain areas for further device testing. Universal codec support and an audio-sync fix are not claimed.
+The latest interface changes are installed on both televisions, with physical remote and additional-account retests still pending. Audio conversion, unusual subtitle formats, cache pressure and broader codec coverage remain areas for further device testing. Universal codec support and an audio-sync fix are not claimed.
 
 ## Publication scope
 
