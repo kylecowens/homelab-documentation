@@ -64,7 +64,7 @@ The client has been installed on two Samsung Tizen 8 televisions. User testing c
 
 The local core suite contains 16 passing tests covering playback policy, subtitle parsing, navigation, episode selection and scroll bounds. The latest padding and scroll changes were also checked at a 1920 × 1080 browser viewport: the final row clears the footer, and returning to the hero reveals the greeting.
 
-Those latest layout changes still require a physical remote retest after deployment. Audio conversion, unusual subtitle formats, cache pressure and broader codec coverage remain areas for further device testing. Universal codec support and an audio-sync fix are not claimed.
+The latest layout changes are installed on both televisions, with a physical remote retest still pending. Audio conversion, unusual subtitle formats, cache pressure and broader codec coverage remain areas for further device testing. Universal codec support and an audio-sync fix are not claimed.
 
 ## Publication scope
 
