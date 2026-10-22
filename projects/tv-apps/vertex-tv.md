@@ -76,7 +76,7 @@ The shared suite has **80 passing tests** covering playback policy, subtitles, n
 
 Physical confirmation of the newest homepage remains pending. Native long-press behaviour and broader codec, audio-conversion and subtitle coverage still need device testing. One previous update was followed by sign-in loss; its cause and session retention remain unresolved. Universal codec compatibility and an audio-sync fix are not claimed.
 
-The LG television runs an earlier port release; the newest Samsung homepage and player changes have not been deployed there.
+LG **0.1.7** now includes the same homepage and player improvements. It was installed in the background while aerial Live TV remained on screen, without launching Vertex. Five LG compatibility checks and the compiled-build homepage browser checks passed. Installed version and packaged-file hashes were verified; physical playback and sign-in retention on this release remain pending.
 
 ## Publication scope
 

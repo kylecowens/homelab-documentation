@@ -2,7 +2,14 @@
 
 Application changes and validation are recorded here. Operational logs, credentials, deployment settings and private library details remain outside this repository.
 
-## 0.1.21 — 22 October 2026
+## LG 0.1.7 — 22 October 2026
+
+- Deployed the current homepage, in-player Up Next, Continue watching options and Back-button behaviour to the LG webOS port.
+- Retained the LG playback compatibility policy and older-browser adaptations.
+- Five compatibility checks and compiled-build homepage browser checks passed; installed version and packaged-file hashes were verified.
+- Installed without launching Vertex or disturbing aerial Live TV. The update loads on the next normal app opening; physical playback and sign-in retention remain to be checked.
+
+## Samsung 0.1.21 — 22 October 2026
 
 - Organised Home into Continue watching / Up next, Specials & bonus episodes, Recently added, Film collections and one daily discovery row, below the featured film.
 - Added larger headings, theme-coloured accent lines, section spacing and two-line landscape titles.
