@@ -45,6 +45,14 @@ The HTML, CSS and JavaScript interface is packaged for Tizen. Application-launch
 
 Home-button behaviour and app handoffs required device-specific integration. BBC iPlayer needed a different launch path from other streaming apps, and returning from it needed separate handling. These behaviours were tested on the target televisions; compatibility across other models and firmware is not established.
 
+## LG port and shared build
+
+The same launcher interface also has an LG webOS build. A build adapter maps Samsung app identifiers to the actual installed LG apps and replaces launch/input actions with Luna service calls through `PalmServiceBridge`. App IDs were checked on the target television rather than assumed from display names. An aerial Live TV tile opens LG's television app, while an LG Home button provides access to the stock interface.
+
+The older LG browser needs JavaScript transpilation, runtime polyfills and explicit flex-layout/spacing adaptations. These are applied during the build, keeping a common interface source. Favourites remain in local storage; migrations update obsolete app IDs without resetting the viewer's order. The editor has a remote-operated reorder mode: select a tile, move it with arrows, confirm to place it, or Back to cancel the move.
+
+Home-button routing and startup use device-specific integration, investigated and verified separately from ordinary app packaging. Developer Mode was used for initial pairing; subsequent persistent device integration uses locally managed access. The public write-up omits access keys and deployment settings. This is an installed application and integration layer; the original TV operating system remains in place.
+
 ## What testing changed
 
 The first working version exposed several practical differences between a desktop preview and a real TV:

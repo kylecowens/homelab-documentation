@@ -2,6 +2,15 @@
 
 Application changes and validation are recorded here. Operational logs, credentials, deployment settings and private library details remain outside this repository.
 
+## Samsung 0.1.22 / LG 0.1.8 — 22 October 2026
+
+- Added Jellyfin profile pictures to the account chooser. Preserve image tags at sign-in/startup/switching, refresh existing saved profiles through their own sessions, and request the tagged user-image endpoint through the authenticated artwork pipeline.
+- Keep initials when a profile has no picture or its image cannot load. No new login is needed for previously remembered profiles.
+- Make Up from Home's upper controls enter the navigation at Home consistently, independent of horizontal position. Left/Right navigation and shelf traversal remain available.
+- Validation: 82 shared tests, five LG compatibility checks, shared-source and compiled-LG browser checks for pictures/fallback/focus, plus existing resume and Up Next browser checks. Verified picture availability through read-only Jellyfin requests.
+- Installed and independently verified on both Samsung TVs and the LG. No active Vertex playback was interrupted; aerial Live TV stayed on the LG. The new builds load at the next normal app opening. Physical remote confirmation and sign-in retention remain pending.
+- Expanded the media-client and launcher case studies with the shared-source architecture, platform packaging, older-LG adaptations, API integration and deployment checks.
+
 ## LG 0.1.7 — 22 October 2026
 
 - Deployed the current homepage, in-player Up Next, Continue watching options and Back-button behaviour to the LG webOS port.

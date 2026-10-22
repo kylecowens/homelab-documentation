@@ -6,7 +6,7 @@ Project by [Kyle Cowens](https://vertexhomelab.co.uk/kyle-cowens/), developed wi
 
 ![Vertex TV homepage with featured film and Continue watching](images/vertex-home.jpg)
 
-*Actual app interface in a browser preview. Titles, artwork, account and room labels are fictional demonstration data. Latest Samsung release: **0.1.21**, 22 October 2026. See the [release history](CHANGELOG.md).*
+*Actual app interface in a browser preview. Titles, artwork, account and room labels are fictional demonstration data. Latest builds: **Samsung 0.1.22 / LG 0.1.8**, 22 October 2026. See the [release history](CHANGELOG.md).*
 
 ## The problem
 
@@ -44,6 +44,26 @@ Holding OK on a Continue watching tile opens options to clear its saved position
 
 Other features include movie and series browsing, collections, seasons, search, favourites, watched ribbons, Live TV listings, audio selection and text subtitles. Movies and series load further pages as the viewer moves down. Quick Connect starts with remote focus, and remembered profiles validate their sessions before switching.
 
+## Profiles and predictable navigation
+
+The profile chooser originally drew only initials. Although Jellyfin returned a profile picture tag, the client discarded it when saving the account and never requested the user image. The fix preserves `PrimaryImageTag` when signing in, starting the app and switching profiles. Opening Profiles refreshes `GET /Users/Me` for each remembered account with that account's existing session, without switching the active viewer or enumerating unrelated server users.
+
+A picture uses Jellyfin's `GET /Users/{userId}/Images/Primary` endpoint, with a small requested size and the image tag as the cache version. It goes through the existing authenticated image-fetch queue and blob cache; credentials are passed in headers rather than added to the image URL. A changed picture gets a new cache key. Missing, unavailable or undecodable pictures leave a circular initial fallback. Previously saved profiles receive the new metadata without another login. The endpoint is documented in the [official Jellyfin SDK](https://typescript-sdk.jellyfin.org/functions/generated-client.ImageApiFp.html).
+
+Home's upper controls previously relied on geometric focus selection, so an upward press could choose a different control according to horizontal position. Up from the featured-film or heading controls now explicitly focuses **Home** in the top navigation. Entering the navigation moves focus only; it does not activate a different page. Left and Right still move between navigation buttons. Shelf navigation still visits the preceding row and featured area before entering the header.
+
+## How the application was built
+
+The interface is plain HTML, CSS and JavaScript. Shared modules have distinct responsibilities: `app.js` renders screens and remote interactions; `home.js` selects shelves; `api.js` handles Jellyfin requests and remembered accounts; `cache.js` manages artwork and metadata; `core.js` holds playback and navigation rules; and `player.js` handles device playback and progress. This allows platform differences to stay in build adapters instead of maintaining two unrelated applications.
+
+The implementation was developed in small steps: authenticate with password or Quick Connect, load the current viewer's accessible library, add predictable remote focus and pagination, integrate native playback, then refine the screens using physical TV feedback. Profile switching validates the saved session before making it current. Account and server identifiers scope cached metadata and return state so one viewer's history cannot appear under another account.
+
+For Samsung, the build supplies a per-device theme and room configuration, packages a Tizen web application and signs the `.wgt` with local author/distributor certificates. Samsung AVPlay handles playback, while the application selects a suitable Jellyfin source and reports playback progress. Signing keys and account sessions stay outside the published documentation.
+
+For LG, the build consumes the same UI sources, substitutes the webOS launch/player integration and device playback policy, and transpiles JavaScript for Chromium 53 using Babel. Polyfills provide missing runtime APIs. PostCSS and targeted flex layouts adapt newer CSS; Back-key normalisation and a focus wrapper handle older browser behaviour. The compiled app is packaged as an `.ipk` with the webOS CLI. The installed LG is an older webOS model, so its supported formats and conversion policy are checked separately from Samsung.
+
+The reusable build sequence is: run the shared Node tests, generate the platform build, run the actual compiled interface against a fictional Jellyfin fixture, package/sign it, check the target model, free space and playback, then install and independently verify the installed version. Previous packages are retained. Builds can be staged while an episode is playing; an update does not justify interrupting it. Browser fixtures verify client behaviour, while physical tests establish what a particular TV actually plays.
+
 ## Architecture
 
 ```mermaid
@@ -70,13 +90,13 @@ The LG port can request compatible video conversion for unsupported files when t
 
 ## Validation and current limits
 
-Samsung **0.1.21** is installed on two televisions. Live playback was checked before updating; neither update interrupted an episode. User testing confirmed Back-button behaviour on a physical Samsung, along with earlier Quick Connect, library browsing and selected Direct Play playback.
+Samsung **0.1.22** is installed on two televisions. Live playback was checked before updating; neither update interrupted an episode. User testing confirmed Back-button behaviour on a physical Samsung, along with earlier Quick Connect, library browsing and selected Direct Play playback.
 
-The shared suite has **80 passing tests** covering playback policy, subtitles, navigation, profiles, resume updates, caching, pagination, Up Next and homepage selection. Browser checks at 1920 × 1080 verify row order, visible headings and focus, collection navigation, empty and failed data sources, server-confirmed resume changes against a fixture, and continuous next-episode handoff. These previews use fictional data and do not modify a live library.
+The shared suite has **82 passing tests** covering playback policy, subtitles, navigation, profiles, resume updates, caching, pagination, Up Next and homepage selection. Browser checks at 1920 × 1080 verify row order, visible headings and focus, collection navigation, empty and failed data sources, server-confirmed resume changes against a fixture, and continuous next-episode handoff. These previews use fictional data and do not modify a live library.
 
-Physical confirmation of the newest homepage remains pending. Native long-press behaviour and broader codec, audio-conversion and subtitle coverage still need device testing. One previous update was followed by sign-in loss; its cause and session retention remain unresolved. Universal codec compatibility and an audio-sync fix are not claimed.
+The latest builds also passed browser checks for profile-picture loading, missing-picture fallback and entry to Home from each upper control, using both the shared source and compiled LG build. Read-only server checks confirmed the reported missing picture was available from Jellyfin. The installed versions were verified on all three TVs; Vertex was left for the next normal opening. Physical confirmation of the newest profile/navigation behaviour and homepage remains pending. Native long-press behaviour and broader codec, audio-conversion and subtitle coverage still need device testing. One previous update was followed by sign-in loss; its cause and session retention remain unresolved. Universal codec compatibility and an audio-sync fix are not claimed.
 
-LG **0.1.7** now includes the same homepage and player improvements. It was installed in the background while aerial Live TV remained on screen, without launching Vertex. Five LG compatibility checks and the compiled-build homepage browser checks passed. Installed version and packaged-file hashes were verified; physical playback and sign-in retention on this release remain pending.
+LG **0.1.8** now includes the same homepage and player improvements. It was installed in the background while aerial Live TV remained on screen, without launching Vertex. Five LG compatibility checks and the compiled-build homepage browser checks passed. The installed version was independently verified; physical playback and sign-in retention on this release remain pending.
 
 ## Publication scope
 
