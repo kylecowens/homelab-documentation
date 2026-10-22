@@ -4,7 +4,7 @@ Practical software and infrastructure projects by **Kyle Cowens**, developed aro
 
 | Project | What it solves | Technology |
 |---|---|---|
-| [Vertex TV](tv-apps/vertex-tv.md) | A Jellyfin experience designed for a television remote, with explicit control over playback conversion | JavaScript, Jellyfin API, Samsung AVPlay, IndexedDB |
+| [Vertex TV](tv-apps/vertex-tv.md) | A Jellyfin experience designed for a television remote, with explicit control over playback conversion | JavaScript, Jellyfin API, Samsung AVPlay, LG webOS, IndexedDB |
 | [Samsung home launcher](tv-apps/home-launcher.md) | A personal home screen with app favourites, HDMI shortcuts and weather | HTML, CSS, JavaScript, Tizen TV APIs |
 
 ![Vertex TV home screen with fictional demonstration content](tv-apps/images/vertex-home.jpg)
